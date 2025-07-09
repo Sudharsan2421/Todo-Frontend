@@ -13,7 +13,7 @@ function App() {
   const [showAbout, setShowAbout] = useState(false);
 
   const isDark = theme === 'dark';
-  const API_URL = 'http://localhost:5000/todos';
+  const API_URL = `${process.env.REACT_APP_BACKEND_URL}/todos`;
 
   // 🔄 Fetch Todos from MongoDB on load
   useEffect(() => {
