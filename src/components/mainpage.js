@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function App() {
+function Mainpage({ apiUrl }) {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -313,4 +313,4 @@ function App() {
   );
 }
 
-export default App;
+export default Mainpage;
