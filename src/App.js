@@ -1,12 +1,10 @@
 import React from 'react';
 import Mainpage from "./components/mainpage";
 
-// ✅ Log the backend URL for testing
-const API_URL = 'https://todo-backend-yzxh.onrender.com';
+// ✅ Use the env variable
+const API_URL = process.env.REACT_APP_API_BASE_URL;
 
-console.log("API_URL:", API_URL); // ✅ For testing
-
-
+console.log("API_URL:", API_URL); // For confirmation in browser console
 
 const App = () => {
   return (
