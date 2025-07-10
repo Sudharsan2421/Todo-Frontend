@@ -13,7 +13,7 @@ function App() {
   const [showAbout, setShowAbout] = useState(false);
 
   const isDark = theme === 'dark';
-  const API_URL = 'https://todo-backend-ei3y.onrender.com/todos';
+  const API_URL = 'https://todo-backend-yzxh.onrender.com';
 
 
   // 🔄 Fetch Todos from MongoDB on load
