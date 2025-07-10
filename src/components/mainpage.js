@@ -13,16 +13,15 @@ function App() {
   const [showAbout, setShowAbout] = useState(false);
 
   const isDark = theme === 'dark';
-  const API_URL = 'https://todo-backend-yzxh.onrender.com';
-
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
 
   // 🔄 Fetch Todos from MongoDB on load
   useEffect(() => {
-    fetch(API_URL)
+    fetch(`${API_URL}/todos`)
       .then((res) => res.json())
       .then((data) => setTodos(data))
       .catch((err) => console.error('Fetch todos error:', err));
-  }, []);
+  }, [API_URL]);
 
   // ➕ Add or ✏️ Update Task
   const handleAddOrUpdate = () => {
@@ -30,7 +29,7 @@ function App() {
 
     if (editTodo) {
       // Update existing
-      fetch(`${API_URL}/${editTodo._id}`, {
+      fetch(`${API_URL}/todos/${editTodo._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: input, endDate, status }),
@@ -43,7 +42,7 @@ function App() {
     } else {
       // Add new
       const startDate = new Date().toLocaleString();
-      fetch(API_URL, {
+      fetch(`${API_URL}/todos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: input, endDate, status, startDate }),
@@ -58,7 +57,7 @@ function App() {
 
   // 🗑️ Delete
   const handleDelete = (id) => {
-    fetch(`${API_URL}/${id}`, { method: 'DELETE' })
+    fetch(`${API_URL}/todos/${id}`, { method: 'DELETE' })
       .then(() => {
         setTodos((prev) => prev.filter((todo) => todo._id !== id));
       });
@@ -232,7 +231,10 @@ function App() {
                       <button onClick={() => handleEdit(todo)} style={actionBtn('#ffc107', '#000')}>
                         ✏️ Edit
                       </button>{' '}
-                      <button onClick={() => handleDelete(todo._id)} style={actionBtn('#dc3545', '#fff')}>
+                      <button
+                        onClick={() => handleDelete(todo._id)}
+                        style={actionBtn('#dc3545', '#fff')}
+                      >
                         🗑️ Delete
                       </button>
                     </td>
@@ -312,6 +314,3 @@ function App() {
 }
 
 export default App;
-
-
-
