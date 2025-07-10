@@ -2,7 +2,8 @@ import React from 'react';
 import Mainpage from "./components/mainpage";
 
 // ✅ Log the backend URL for testing
-const API_URL = `${process.env.REACT_APP_BACKEND_URL}/todos`;
+const API_URL = 'https://todo-backend-yzxh.onrender.com';
+
 console.log("API_URL:", API_URL); // ✅ For testing
 
 
