@@ -13,7 +13,7 @@ function Mainpage({ apiUrl }) {
   const [showAbout, setShowAbout] = useState(false);
 
   const isDark = theme === 'dark';
-  const API_URL = process.env.REACT_APP_API_BASE_URL;
+  const API_URL = apiUrl;
 
   // 🔄 Fetch Todos from MongoDB on load
   useEffect(() => {
