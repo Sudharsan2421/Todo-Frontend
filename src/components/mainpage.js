@@ -15,6 +15,7 @@ function Mainpage({ apiUrl }) {
   const isDark = theme === 'dark';
   const API_URL = apiUrl;
 
+  // 🔄 Fetch Todos from backend
   useEffect(() => {
     const fetchTodos = async () => {
       try {
@@ -33,10 +34,12 @@ function Mainpage({ apiUrl }) {
     fetchTodos();
   }, [API_URL]);
 
+  // ➕ Add or ✏️ Update Task
   const handleAddOrUpdate = () => {
     if (!input.trim() || !endDate || !status) return;
 
     if (editTodo) {
+      // Update
       fetch(`${API_URL}/todos/${editTodo._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -49,6 +52,7 @@ function Mainpage({ apiUrl }) {
         })
         .catch((err) => console.error("❌ Update error:", err));
     } else {
+      // Add
       const startDate = new Date().toLocaleString();
       fetch(`${API_URL}/todos`, {
         method: 'POST',
@@ -122,10 +126,7 @@ function Mainpage({ apiUrl }) {
         display: 'flex',
         minHeight: '100vh',
         fontFamily: 'Arial, sans-serif',
-        backgroundImage: `url('/background.jpg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: isDark ? '#121212' : '#ff6569',
         color: isDark ? '#e9ecef' : '#212529',
       }}
     >
@@ -167,7 +168,7 @@ function Mainpage({ apiUrl }) {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, padding: '30px' }}>
+      <div style={{ flex: 1, backgroundColor: isDark ? '#282c34' : '#ff6569', padding: '30px' }}>
         <div
           style={{
             maxWidth: '900px',
