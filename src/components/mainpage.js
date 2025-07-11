@@ -111,7 +111,7 @@ function Mainpage({ apiUrl }) {
     cursor: 'pointer',
   });
   const sidebarBtn = {
-    backgroundColor: 'white',
+    backgroundColor: '#ff6569',
     color: '#fff',
     border: 'none',
     padding: '10px',
