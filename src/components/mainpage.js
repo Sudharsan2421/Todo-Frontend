@@ -15,25 +15,22 @@ function Mainpage({ apiUrl }) {
   const isDark = theme === 'dark';
   const API_URL = apiUrl;
 
-  // 🔄 Fetch Todos from MongoDB on load with safe error handling
+  // 🔄 Fetch Todos from backend
   useEffect(() => {
     const fetchTodos = async () => {
       try {
         const res = await fetch(`${API_URL}/todos`);
-
         if (!res.ok) {
           const errorText = await res.text();
-          console.error("❌ Server responded with error or HTML:", errorText);
+          console.error("❌ Server responded with:", errorText);
           throw new Error(`Server error: ${res.status}`);
         }
-
         const data = await res.json();
         setTodos(data);
       } catch (err) {
         console.error("❌ Fetch todos error:", err.message);
       }
     };
-
     fetchTodos();
   }, [API_URL]);
 
@@ -42,7 +39,7 @@ function Mainpage({ apiUrl }) {
     if (!input.trim() || !endDate || !status) return;
 
     if (editTodo) {
-      // Update existing
+      // Update
       fetch(`${API_URL}/todos/${editTodo._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -55,7 +52,7 @@ function Mainpage({ apiUrl }) {
         })
         .catch((err) => console.error("❌ Update error:", err));
     } else {
-      // Add new
+      // Add
       const startDate = new Date().toLocaleString();
       fetch(`${API_URL}/todos`, {
         method: 'POST',
@@ -71,7 +68,6 @@ function Mainpage({ apiUrl }) {
     }
   };
 
-  // 🗑️ Delete
   const handleDelete = (id) => {
     fetch(`${API_URL}/todos/${id}`, { method: 'DELETE' })
       .then(() => {
@@ -80,7 +76,6 @@ function Mainpage({ apiUrl }) {
       .catch((err) => console.error("❌ Delete error:", err));
   };
 
-  // ✏️ Edit
   const handleEdit = (todo) => {
     setInput(todo.text);
     setEndDate(todo.endDate);
@@ -100,7 +95,6 @@ function Mainpage({ apiUrl }) {
   const filteredTodos =
     filterStatus === 'All' ? todos : todos.filter((todo) => todo.status === filterStatus);
 
-  // 🖌️ Styling
   const thStyle = { padding: '12px', border: '1px solid #dee2e6', textAlign: 'left' };
   const tdStyle = { padding: '10px', border: '1px solid #dee2e6' };
   const inputStyle = {
@@ -117,7 +111,7 @@ function Mainpage({ apiUrl }) {
     cursor: 'pointer',
   });
   const sidebarBtn = {
-    backgroundColor: '#ff6569',
+    backgroundColor: '#495057',
     color: '#fff',
     border: 'none',
     padding: '10px',
@@ -307,6 +301,24 @@ function Mainpage({ apiUrl }) {
                   <option value="Process">Process</option>
                   <option value="Completed">Completed</option>
                 </select>
+                <div>
+                  <strong>Preview:</strong>{' '}
+                  <span
+                    style={{
+                      backgroundColor:
+                        status === 'Completed'
+                          ? '#28a745'
+                          : status === 'Process'
+                          ? '#ffc107'
+                          : 'grey',
+                      color: 'white',
+                      padding: '4px 8px',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    {status}
+                  </span>
+                </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <button onClick={handleAddOrUpdate} style={actionBtn('#007bff', 'white')}>
                     {editTodo ? 'Update' : 'Add'}
