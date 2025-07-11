@@ -134,7 +134,7 @@ function Mainpage({ apiUrl }) {
       <div
         style={{
           width: '200px',
-          backgroundColor: isDark ? '#1f1f1f' : 'black',
+          backgroundColor: isDark ? '#1f1f1f' : 'white',
           color: '#ff6569',
           padding: '30px',
           display: 'flex',
