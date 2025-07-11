@@ -140,7 +140,6 @@ function Mainpage({ apiUrl }) {
           display: 'flex',
           flexDirection: 'column',
           gap: '30px',
-          border: 'black',
         }}
       >
         <h2 style={{ fontSize: '40px', borderBottom: '1px solid #555' }}>To-Do</h2>
