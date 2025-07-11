@@ -301,24 +301,6 @@ function Mainpage({ apiUrl }) {
                   <option value="Process">Process</option>
                   <option value="Completed">Completed</option>
                 </select>
-                <div>
-                  <strong>Preview:</strong>{' '}
-                  <span
-                    style={{
-                      backgroundColor:
-                        status === 'Completed'
-                          ? '#28a745'
-                          : status === 'Process'
-                          ? '#ffc107'
-                          : 'grey',
-                      color: 'white',
-                      padding: '4px 8px',
-                      borderRadius: '5px',
-                    }}
-                  >
-                    {status}
-                  </span>
-                </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <button onClick={handleAddOrUpdate} style={actionBtn('#007bff', 'white')}>
                     {editTodo ? 'Update' : 'Add'}
