@@ -15,12 +15,26 @@ function Mainpage({ apiUrl }) {
   const isDark = theme === 'dark';
   const API_URL = apiUrl;
 
-  // 🔄 Fetch Todos from MongoDB on load
+  // 🔄 Fetch Todos from MongoDB on load with safe error handling
   useEffect(() => {
-    fetch(`${API_URL}/todos`)
-      .then((res) => res.json())
-      .then((data) => setTodos(data))
-      .catch((err) => console.error('Fetch todos error:', err));
+    const fetchTodos = async () => {
+      try {
+        const res = await fetch(`${API_URL}/todos`);
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error("❌ Server responded with error or HTML:", errorText);
+          throw new Error(`Server error: ${res.status}`);
+        }
+
+        const data = await res.json();
+        setTodos(data);
+      } catch (err) {
+        console.error("❌ Fetch todos error:", err.message);
+      }
+    };
+
+    fetchTodos();
   }, [API_URL]);
 
   // ➕ Add or ✏️ Update Task
@@ -38,7 +52,8 @@ function Mainpage({ apiUrl }) {
         .then((updated) => {
           setTodos((prev) => prev.map((todo) => (todo._id === updated._id ? updated : todo)));
           resetForm();
-        });
+        })
+        .catch((err) => console.error("❌ Update error:", err));
     } else {
       // Add new
       const startDate = new Date().toLocaleString();
@@ -51,7 +66,8 @@ function Mainpage({ apiUrl }) {
         .then((newTodo) => {
           setTodos((prev) => [...prev, newTodo]);
           resetForm();
-        });
+        })
+        .catch((err) => console.error("❌ Add task error:", err));
     }
   };
 
@@ -60,7 +76,8 @@ function Mainpage({ apiUrl }) {
     fetch(`${API_URL}/todos/${id}`, { method: 'DELETE' })
       .then(() => {
         setTodos((prev) => prev.filter((todo) => todo._id !== id));
-      });
+      })
+      .catch((err) => console.error("❌ Delete error:", err));
   };
 
   // ✏️ Edit
